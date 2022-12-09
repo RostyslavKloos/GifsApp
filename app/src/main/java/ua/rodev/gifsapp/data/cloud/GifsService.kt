@@ -4,6 +4,6 @@ import ua.rodev.gifsapp.data.GifsCloud
 
 interface GifsService {
 
-    @GET("")
+//    @GET("")
     suspend fun gifs(): List<GifsCloud>
 }

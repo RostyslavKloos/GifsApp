@@ -7,7 +7,8 @@ interface CloudDataSource : FetchGifs {
 
     class Main(private val service: GifsService) : CloudDataSource {
         override fun gifs(): GifsData {
-            return service.gifs().map(mapper)
+//            return service.gifs().map(mapper)
+            return GifsData()
         }
     }
 }

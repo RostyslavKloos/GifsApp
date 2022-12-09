@@ -1,6 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -33,11 +36,8 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         compose = true
     }
-
-    compileOptions.coreLibraryDesugaringEnabled true
 
     composeOptions {
         kotlinCompilerExtensionVersion composeVersion
@@ -74,7 +74,11 @@ dependencies {
         exclude group: 'androidx.navigation'
     }
 
-    // Room components
+    // Navigation
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation "androidx.navigation:navigation-fragment-ktx:2.6.0-alpha04"
+
+    // Room
     implementation "androidx.room:room-ktx:$roomVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
     androidTestImplementation "androidx.room:room-testing:$roomVersion"
