@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">GifsApp</string>
+    <string name="network_error">Network Error</string>
+    <string name="retry_refresh">retry refresh!</string>
+    <string name="retry_append">retry append!</string>
 </resources>
