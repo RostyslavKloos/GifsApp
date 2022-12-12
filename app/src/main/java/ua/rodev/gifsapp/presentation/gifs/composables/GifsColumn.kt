@@ -23,6 +23,8 @@ import ua.rodev.gifsapp.presentation.gifs.PagingException
 fun GifsColumn(
     listState: LazyListState,
     gifs: LazyPagingItems<GifData>,
+    onCardClick: OnCardClick,
+    onDeleteClick: OnGifDeleteClick,
 ) {
     val append = gifs.loadState.append
     LazyColumn(
@@ -34,7 +36,13 @@ fun GifsColumn(
         )
     ) {
         items(gifs, GifData::id) { gif ->
-            if (gif != null) GifCard(gif.title, gif.url)
+            if (gif != null)
+                GifCard(
+                    title = gif.title,
+                    url = gif.url,
+                    onCardClick = { onCardClick.invoke(gif.url) },
+                    onDeleteClick = { onDeleteClick.invoke(gif.id, gif.url) },
+                )
         }
         if (gifs.loadState.refresh is LoadState.Error) {
             val errorState = gifs.loadState.refresh as LoadState.Error
@@ -47,7 +55,8 @@ fun GifsColumn(
                 )
                 Button(
                     modifier = Modifier.fillMaxWidth(),
-                    onClick = gifs::retry) {
+                    onClick = gifs::retry
+                ) {
                     Text(
                         text = stringResource(R.string.retry_refresh),
                         textAlign = TextAlign.Center

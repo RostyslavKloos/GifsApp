@@ -5,13 +5,15 @@ import androidx.room.RoomDatabase
 import ua.rodev.gifsapp.data.GifData
 
 @Database(
-    version = 1,
+    version = 2,
     entities = [
         GifData::class,
         GifsRemoteKeys::class,
+        DeletedGif::class
     ],
 )
 abstract class GifsDatabase : RoomDatabase() {
     abstract fun gifsDao(): GifsDao
     abstract fun gifsRemoteKeysDao(): GifsRemoteKeysDao
+    abstract fun deletedGifsDao(): DeletedGifsDao
 }

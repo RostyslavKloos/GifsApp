@@ -20,15 +20,19 @@ interface GifsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertGifs(gifs: List<GifData>)
 
-    @Query("SELECT * from gifs_table")
-    fun gifsFlow(): Flow<List<GifData>>
+    @Query("SELECT * from gifs_table WHERE keyword LIKE :keyword")
+    suspend fun gifsByKeyword(keyword: String): List<GifData>
 
     @Query("DELETE from gifs_table")
     suspend fun deleteGifs()
 
+    @Query("DELETE from gifs_table WHERE keyword LIKE :keyword")
+    suspend fun deleteGifsByKeyword(keyword: String)
+
+    @Query("DELETE from gifs_table WHERE id =:id")
+    suspend fun deleteById(id: String)
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(gifs: List<GifData>)
 
-    @Query("DELETE FROM gifs_table")
-    suspend fun clearAll()
 }

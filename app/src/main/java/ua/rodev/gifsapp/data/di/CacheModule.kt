@@ -7,12 +7,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import ua.rodev.gifsapp.data.cache.GifsDatabase
+import ua.rodev.gifsapp.data.cache.*
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object DatabaseModule {
+object CacheModule {
 
     @Singleton
     @Provides
@@ -28,4 +28,21 @@ object DatabaseModule {
     @Singleton
     @Provides
     fun provideGifsRemoteKeysDao(appDatabase: GifsDatabase) = appDatabase.gifsRemoteKeysDao()
+
+    @Singleton
+    @Provides
+    fun deletedGifsDao(appDatabase: GifsDatabase) = appDatabase.deletedGifsDao()
+
+    @Singleton
+    @Provides
+    fun provideDeleteGifUseCase(
+        @ApplicationContext context: Context,
+        gifsDao: GifsDao,
+        deletedGifsDao: DeletedGifsDao,
+        remoteKeysDao: GifsRemoteKeysDao,
+    ): DeleteGifUseCase {
+        return DeleteGifUseCase.Main(
+            context, gifsDao, deletedGifsDao, remoteKeysDao
+        )
+    }
 }

@@ -16,4 +16,7 @@ interface GifsRemoteKeysDao {
 
     @Query("DELETE FROM gifs_remote_keys")
     suspend fun deleteRemoteKeys()
+
+    @Query("DELETE FROM gifs_remote_keys WHERE id= :id")
+    suspend fun deleteRemoteKeyById(id: String)
 }
