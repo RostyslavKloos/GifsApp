@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -58,7 +59,11 @@ class GifDetailFragment : Fragment() {
                 Column(Modifier.fillMaxSize()) {
                     TopAppBar(
                         title = {
-                            Text(text = appBarTitle.value)
+                            Text(
+                                text = appBarTitle.value,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis
+                            )
                         },
                         navigationIcon = {
                             IconButton(onClick = viewModel::goBack) {

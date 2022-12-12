@@ -2,7 +2,6 @@ package ua.rodev.gifsapp.data.cache
 
 import androidx.paging.PagingSource
 import androidx.room.*
-import kotlinx.coroutines.flow.Flow
 import ua.rodev.gifsapp.data.GifData
 
 @Dao

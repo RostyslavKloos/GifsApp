@@ -1,7 +1,6 @@
 package ua.rodev.gifsapp.data.cloud.gifs
 
 import com.google.gson.annotations.SerializedName
-import ua.rodev.gifsapp.data.GifData
 import ua.rodev.gifsapp.data.cache.DeletedGifsDao
 
 data class GifsCloud(
@@ -22,7 +21,7 @@ data class GifsCloud(
                 val deletedGifs = deletedGifsDao.all()
                 return data.filter { gifCloud ->
                     deletedGifs.firstOrNull {
-                        gifCloud.id == it.id
+                        gifCloud.map(GifCloud.Mapper.Matches(it.id))
                     } == null
                 }
             }
@@ -35,17 +34,5 @@ data class GifsCloud(
 
     companion object {
         private const val SUCCESS_STATUS = 200
-    }
-}
-
-// TODO: use interface
-fun List<GifCloud>.toGifsData(query: String): List<GifData> {
-    return this.map {
-        GifData(
-            id = it.id,
-            url = it.images.original.url,
-            title = it.title,
-            keyword = query
-        )
     }
 }

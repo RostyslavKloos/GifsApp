@@ -5,7 +5,6 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
-import kotlinx.coroutines.delay
 import ua.rodev.gifsapp.data.GifData
 import ua.rodev.gifsapp.data.cache.GifsDao
 import ua.rodev.gifsapp.data.cache.GifsDatabase
@@ -14,7 +13,6 @@ import ua.rodev.gifsapp.data.cache.GifsRemoteKeysDao
 import ua.rodev.gifsapp.data.cloud.GifsService
 import ua.rodev.gifsapp.data.cloud.gifs.GifCloud
 import ua.rodev.gifsapp.data.cloud.gifs.GifsCloud
-import ua.rodev.gifsapp.data.cloud.gifs.toGifsData
 import ua.rodev.gifsapp.data.pagging.GifsPagingRepository.Companion.PAGE_INITIAL_LIMIT
 import ua.rodev.gifsapp.presentation.gifs.PagingException
 
@@ -69,10 +67,14 @@ class GifsRemoteMediator(
                     val prevKey = if (page == START_PAGE) null else page - 1
                     val nextKey = if (isLastPageReached) null else page + 1
                     val keys = gifs.map {
-                        GifsRemoteKeys(id = it.id, prevKey = prevKey, nextKey = nextKey)
+                        it.toRemoteKey(prevKey, nextKey)
                     }
                     gifsRemoteKeysDao.insertAll(keys)
-                    gifsDao.insertAll(gifs.toGifsData(query))
+                    val mapper = GifCloud.Mapper.GifCloudToGifDataMapper(query)
+                    val mappedGifs = gifs.map {
+                        it.map(mapper)
+                    }
+                    gifsDao.insertAll(mappedGifs)
                 }
                 return MediatorResult.Success(endOfPaginationReached = isLastPageReached)
             } else {
