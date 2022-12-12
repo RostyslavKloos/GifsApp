@@ -9,8 +9,7 @@ import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -44,17 +43,22 @@ class GifDetailFragment : Fragment() {
 
             val gifs by viewModel.gifs.collectAsStateWithLifecycle()
             val pagerState = rememberPagerState(gifs.size)
+            val appBarTitle = remember(pagerState.currentPage) {
+                val title = if (gifs.isNotEmpty()) gifs[pagerState.currentPage].title else ""
+                mutableStateOf(title)
+            }
             LaunchedEffect(pagerState, gifs) {
                 if (gifs.isNotEmpty()) {
                     val current = gifs.first { it.url == viewModel.url }
                     pagerState.scrollToPage(gifs.indexOf(current))
+                    appBarTitle.value = gifs[0].title
                 }
             }
             GifTheme {
                 Column(Modifier.fillMaxSize()) {
                     TopAppBar(
                         title = {
-                            Text(text = "Gifs app")
+                            Text(text = appBarTitle.value)
                         },
                         navigationIcon = {
                             IconButton(onClick = viewModel::goBack) {
@@ -71,12 +75,14 @@ class GifDetailFragment : Fragment() {
                             .systemBarsPadding(),
                         state = pagerState,
                         count = gifs.size
-                    ) {
-                        GifImage(
-                            modifier = Modifier.fillMaxSize(),
-                            url = gifs[it].url,
-                            contentScale = ContentScale.Crop
-                        )
+                    ) { page ->
+                        key(page) {
+                            GifImage(
+                                modifier = Modifier.fillMaxSize(),
+                                url = gifs[page].url,
+                                contentScale = ContentScale.Crop
+                            )
+                        }
                     }
                 }
             }
