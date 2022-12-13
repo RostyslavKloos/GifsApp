@@ -35,9 +35,7 @@ interface GifsPagingRepository {
                     initialLoadSize = PAGE_INITIAL_LIMIT,
                     enablePlaceholders = false
                 ),
-                remoteMediator = GifsRemoteMediator(
-                    query,
-                ),
+                remoteMediator = GifsRemoteMediator(query),
                 pagingSourceFactory = { gifsDao.gifsPagingSourceByQuery(query) }
             ).flow
         }
@@ -71,8 +69,11 @@ interface GifsPagingRepository {
                     }
                 }
 
-                val limit =
-                    if (page == START_PAGE) state.config.initialLoadSize else state.config.pageSize
+                val limit = if (page == START_PAGE) {
+                    state.config.initialLoadSize
+                } else {
+                    state.config.pageSize
+                }
                 val offset = if (page == START_PAGE) 0 else PAGE_INITIAL_LIMIT + (page - 1) * limit
 
                 try {
