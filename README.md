@@ -24,4 +24,4 @@ Stack of technologies:
 Project sctucture: 
 MVVM</br>
 (Since there's no difficult business logic, no "interactor/use cases in domain layer" were used)</br>
-(Since paging library were used the main project structure become simplified a bit)
+(Since paging library were used the main project structure became simplified a bit)
