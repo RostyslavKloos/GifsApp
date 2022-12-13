@@ -19,7 +19,8 @@ Stack of technologies:
 3. Compose (ui)
 4. Navigation Component (navigation)
 5. Room (cache)
-6. Paging-compose (pagination)
+6. Coil (cache gifs)
+7. Paging-compose (pagination)
 
 Project sctucture: 
 MVVM</br>
