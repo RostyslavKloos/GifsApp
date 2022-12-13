@@ -26,7 +26,6 @@ fun GifsColumn(
     onCardClick: OnCardClick,
     onDeleteClick: OnGifDeleteClick,
 ) {
-    val append = gifs.loadState.append
     LazyColumn(
         state = listState,
         modifier = Modifier.fillMaxSize(),
@@ -44,9 +43,9 @@ fun GifsColumn(
                     onDeleteClick = { onDeleteClick.invoke(gif.id, gif.url) },
                 )
         }
-        if (gifs.loadState.refresh is LoadState.Error) {
-            val errorState = gifs.loadState.refresh as LoadState.Error
-            val stringRes = (errorState.error as PagingException).stringRes
+        val refreshLoadState = gifs.loadState.refresh
+        if (refreshLoadState is LoadState.Error) {
+            val stringRes = (refreshLoadState.error as PagingException).stringRes
             item {
                 Text(
                     text = stringResource(id = stringRes),
@@ -64,11 +63,12 @@ fun GifsColumn(
                 }
             }
         }
-        if (append is LoadState.Loading) {
+        val appendLoadState = gifs.loadState.append
+        if (appendLoadState is LoadState.Loading) {
             item { CircularProgressIndicatorRow() }
         }
-        if (append is LoadState.Error) {
-            val stringRes = (append.error as PagingException).stringRes
+        if (appendLoadState is LoadState.Error) {
+            val stringRes = (appendLoadState.error as PagingException).stringRes
             item {
                 Text(
                     text = stringResource(id = stringRes),

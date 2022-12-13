@@ -4,4 +4,5 @@
     <string name="retry_refresh">retry refresh!</string>
     <string name="retry_append">retry append!</string>
     <string name="no_results">No results</string>
+    <string name="gifs_screen_title">Gifs app</string>
 </resources>

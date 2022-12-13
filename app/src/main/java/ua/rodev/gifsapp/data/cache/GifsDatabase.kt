@@ -11,6 +11,7 @@ import ua.rodev.gifsapp.data.GifData
         GifsRemoteKeys::class,
         DeletedGif::class
     ],
+    exportSchema = false
 )
 abstract class GifsDatabase : RoomDatabase() {
     abstract fun gifsDao(): GifsDao

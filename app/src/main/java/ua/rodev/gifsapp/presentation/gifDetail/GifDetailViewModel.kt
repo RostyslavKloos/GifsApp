@@ -16,8 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class GifDetailViewModel @Inject constructor(
     handle: SavedStateHandle,
-    private val dao: GifsDao,
     dispatchers: CoroutineDispatchers,
+    private val dao: GifsDao,
     private val navigationTarget: Target.SuspendMutable<NavigationCommand>,
 ) : ViewModel() {
 

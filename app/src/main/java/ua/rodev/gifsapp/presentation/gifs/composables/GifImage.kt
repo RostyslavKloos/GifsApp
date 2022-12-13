@@ -20,11 +20,13 @@ import ua.rodev.gifsapp.R
 fun GifImage(
     modifier: Modifier = Modifier,
     url: String,
-    contentScale: ContentScale = ContentScale.Fit,
+    contentScale: ContentScale = ContentScale.Crop,
 ) {
     val context = LocalContext.current
-    val factory =
-        if (Build.VERSION.SDK_INT >= 28) ImageDecoderDecoder.Factory() else GifDecoder.Factory()
+    val factory = if (Build.VERSION.SDK_INT >= 28)
+        ImageDecoderDecoder.Factory()
+    else
+        GifDecoder.Factory()
     val imageLoader = ImageLoader.Builder(context)
         .memoryCache {
             MemoryCache.Builder(context).build()

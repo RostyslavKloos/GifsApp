@@ -1,7 +1,6 @@
 package ua.rodev.gifsapp.presentation.gifs
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.compose.foundation.layout.Box
@@ -15,7 +14,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -27,6 +25,7 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -64,26 +63,12 @@ class GifsFragment : Fragment() {
             val query by viewModel.query.collectAsStateWithLifecycle()
             val gifs: LazyPagingItems<GifData> = viewModel.gifs.collectAsLazyPagingItems()
             val isRefreshing by remember { derivedStateOf { gifs.loadState.refresh is LoadState.Loading } }
-            val isErrorOnFirstPage by remember { derivedStateOf { gifs.loadState.refresh is LoadState.Error } }
-            val isError by remember { derivedStateOf { gifs.loadState.append is LoadState.Error } }
-
-            SideEffect {
-                if (isErrorOnFirstPage) {
-                    val errorState = gifs.loadState.refresh as LoadState.Error
-                    Log.e("RORO", "isErrorOnFirstPage ${errorState.error}")
-                    return@SideEffect // Just to prevent 2x toasts
-                }
-                if (isError) {
-                    val errorState = gifs.loadState.append as LoadState.Error
-                    Log.e("RORO", "ERROR ${errorState.error}")
-                }
-            }
 
             GifTheme {
                 Column(modifier = Modifier.fillMaxSize()) {
                     TopAppBar(
                         title = {
-                            Text(text = "Gifs app")
+                            Text(text = stringResource(id = R.string.gifs_screen_title))
                         },
                         backgroundColor = MaterialTheme.colors.primary,
                         contentColor = White,

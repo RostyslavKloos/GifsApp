@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.style.TextOverflow
@@ -85,7 +84,6 @@ class GifDetailFragment : Fragment() {
                             GifImage(
                                 modifier = Modifier.fillMaxSize(),
                                 url = gifs[page].url,
-                                contentScale = ContentScale.Crop
                             )
                         }
                     }
